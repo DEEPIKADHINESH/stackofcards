@@ -3,52 +3,52 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./display.css";
 import uuid from "uuid/v4";
 const itemsFromBackend=[
-    {id:uuid(),title:"card1",color:"red"},
-    {id:uuid(),title:"card2",color:"red"},
-    {id:uuid(),title:"card3",color:"red"},
-    {id:uuid(),title:"card4",color:"red"}
+    {id:uuid(),title:"card1"},
+    {id:uuid(),title:"card2"},
+    {id:uuid(),title:"card3"},
+    {id:uuid(),title:"card4"}
 
 ]
 const itemsFromBackend1=[
-    {id:uuid(),title:"card1",color:"green"},
-    {id:uuid(),title:"card2",color:"green"},
-    {id:uuid(),title:"card3",color:"green"},
-    {id:uuid(),title:"card4",color:"green"}
+    {id:uuid(),title:"card1"},
+    {id:uuid(),title:"card2"},
+    {id:uuid(),title:"card3"},
+    {id:uuid(),title:"card4"}
 
 ]
 const itemsFromBackend2=[
-    {id:uuid(),title:"card1",color:"blue"},
-    {id:uuid(),title:"card2",color:"blue"},
-    {id:uuid(),title:"card3",color:"blue"},
-    {id:uuid(),title:"card4",color:"blue"}
+    {id:uuid(),title:"card1"},
+    {id:uuid(),title:"card2"},
+    {id:uuid(),title:"card3"},
+    {id:uuid(),title:"card4"}
 
 ]
 const itemsFromBackend3=[
-    {id:uuid(),title:"card1",color:"black"},
-    {id:uuid(),title:"card2",color:"black"},
-    {id:uuid(),title:"card3",color:"black"},
-    {id:uuid(),title:"card4",color:"black"}
+    {id:uuid(),title:"card1"},
+    {id:uuid(),title:"card2"},
+    {id:uuid(),title:"card3"},
+    {id:uuid(),title:"card4"}
 ]
 const columnsFromBackend={
     [uuid()]:{
-        name:"title1",
+        name:"Title1",
         items:itemsFromBackend,
         color:"red"
     },
     [uuid()]:{
-        name:"title2",
+        name:"Title2",
         items:itemsFromBackend1,
-        color:"green,"
-    },
-    [uuid()]:{
-        name:"title3",
-        items:itemsFromBackend2,
-        color:"black"
-    },
-    [uuid()]:{
-        name:"title4",
-        items:itemsFromBackend3,
         color:"blue"
+    },
+    [uuid()]:{
+        name:"Title3",
+        items:itemsFromBackend2,
+        color:"green"
+    },
+    [uuid()]:{
+        name:"Title4",
+        items:itemsFromBackend3,
+        color:"black"
     }
 }
 const onDragEnd = (result, columns, setColumns) => {
@@ -57,6 +57,7 @@ const onDragEnd = (result, columns, setColumns) => {
     
       if (source.droppableId !== destination.droppableId) {
         const sourceColumn = columns[source.droppableId];
+       // console.log(sourceColumn)
         const destColumn = columns[destination.droppableId];
         const sourceItems = [...sourceColumn.items];
         const destItems = [...destColumn.items];
@@ -90,6 +91,14 @@ const onDragEnd = (result, columns, setColumns) => {
     
     function Display() {
       const [columns, setColumns] = useState(columnsFromBackend);
+      const handleAdd=()=>{
+             console.log(columns)
+             //setColumns(current => [...current, {id:uuid(),title:"card100",color:"black"}])
+      }
+      const handleDelte=(id,columnId)=>{
+       
+
+      }
       return (
         <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
           <DragDropContext
@@ -102,7 +111,8 @@ const onDragEnd = (result, columns, setColumns) => {
                     display: "flex",
                     flexDirection: "column",
                     alignItems: "center",
-                   
+                    
+                    margin:20
                   }}
                   key={columnId}
                 >
@@ -118,9 +128,11 @@ const onDragEnd = (result, columns, setColumns) => {
                               background: snapshot.isDraggingOver
                                 ? "lightblue"
                                 : "lightgrey",
+                              //background:column.color,
                               padding: 4,
                               width: 250,
                               minHeight: 500,
+                              margin:20
                               
                             }}
                           >
@@ -149,7 +161,12 @@ const onDragEnd = (result, columns, setColumns) => {
                                           ...provided.draggableProps.style
                                         }}
                                       >
-                                        <div style={{background:item.color,padding:"5px"}}>{item.title}</div>
+                                        
+                                        <div style={{padding:"5px",background:column.color}}>{item.title}
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16" style={{float:"right"}}
+                                       onClick={()=>handleDelte(item.id,columnId)}>
+  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+</svg></div>
                                         
                                       </div>
                                     );
@@ -158,6 +175,7 @@ const onDragEnd = (result, columns, setColumns) => {
                               );
                             })}
                             {provided.placeholder}
+                            <button className="btn btn-primary" onClick={handleAdd}>Add</button>
                           </div>
                         );
                       }}
