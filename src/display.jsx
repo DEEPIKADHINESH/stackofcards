@@ -96,9 +96,9 @@ const onDragEnd = (result, columns, setColumns) => {
       const handleAdd=(columnId)=>{
         if(columns[columnId].items.length<8){
           let newColumn={...columns}
-          var newAdd={id:uuid(),title:"title.length"+1}
+          var newAdd={id:uuid(),title:"card"+columns[columnId].items.length}
          console.log(newColumn[columnId].items.push(newAdd))
-         var output=newColumn[columnId].items.push(newAdd)
+        // var output=newColumn[columnId].items.push(newAdd)
          console.log(columns[columnId])
          setColumns(columns)
         }
@@ -111,13 +111,12 @@ const onDragEnd = (result, columns, setColumns) => {
       const handleDelte=(id,columnId)=>{
        
            let newColumn={...columns}
-           const output=newColumn[columnId].items.filter(out=>out.id !==id)
-           //setColumns(columns[columnId].splice(output))
-           setColumns(output)
+           //const output=newColumn[columnId].items.filter(out=>out.id !==id)
+            console.log(newColumn[columnId].items.filter(out=>out.id !==id))
       }
       useEffect(() => {
           setColumns(columns);
-        }, []);
+        }, [handleAdd]);
       return (
         <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
           <DragDropContext
@@ -174,9 +173,6 @@ const onDragEnd = (result, columns, setColumns) => {
                                           padding: 16,
                                           margin: "0 0 8px 0",
                                           minHeight: "50px",
-                                        //   backgroundColor: snapshot.isDragging
-                                        //     ? "#263B4A"
-                                        //     : "#456C86",
                                           color: "white",
                                           ...provided.draggableProps.style
                                         }}
