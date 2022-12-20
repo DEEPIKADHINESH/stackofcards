@@ -100,7 +100,7 @@ const onDragEnd = (result, columns, setColumns) => {
          console.log(newColumn[columnId].items.push(newAdd))
         // var output=newColumn[columnId].items.push(newAdd)
          console.log(columns[columnId])
-         setColumns(columns)
+         setColumns({...columns})
         }
          else{
           alert("maximum 8 card are added")
@@ -112,11 +112,15 @@ const onDragEnd = (result, columns, setColumns) => {
        
            let newColumn={...columns}
            //const output=newColumn[columnId].items.filter(out=>out.id !==id)
-            console.log(newColumn[columnId].items.filter(out=>out.id !==id))
+          //console.log(columnId)
+          console.log(newColumn[columnId])
+           //([columnId].filter(out=>out.id !==id))
+         
+
       }
       useEffect(() => {
           setColumns(columns);
-        }, [handleAdd]);
+        }, []);
       return (
         <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
           <DragDropContext
@@ -180,7 +184,7 @@ const onDragEnd = (result, columns, setColumns) => {
                                         
                                         <div style={{padding:"5px",background:column.color}}>{item.title}
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16" style={{float:"right"}}
-                                       onClick={()=>handleDelte(columnId,index)}>
+                                       onClick={()=>handleDelte(columnId,item.id)}>
   <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
 </svg></div>
  
