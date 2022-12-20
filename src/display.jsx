@@ -3,12 +3,13 @@ import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
 import "./display.css";
 import uuid from "uuid/v4";
 const itemsFromBackend=[
-    {id:uuid(),title:"card1"},
-    {id:uuid(),title:"card2"},
-    {id:uuid(),title:"card3"},
-    {id:uuid(),title:"card4"}
+   {id:uuid(),title:"card1"},
+  {id:uuid(),title:"card2"},
+  {id:uuid(),title:"card3"},
+  {id:uuid(),title:"card4"}
+  ]
 
-]
+
 const itemsFromBackend1=[
     {id:uuid(),title:"card1"},
     {id:uuid(),title:"card2"},
@@ -52,6 +53,7 @@ const columnsFromBackend={
     }
 }
 const onDragEnd = (result, columns, setColumns) => {
+  
       if (!result.destination) return;
       const { source, destination } = result;
     
@@ -91,18 +93,36 @@ const onDragEnd = (result, columns, setColumns) => {
     
     function Display() {
       const [columns, setColumns] = useState(columnsFromBackend);
-      const handleAdd=()=>{
-             console.log(columns)
-             //setColumns(current => [...current, {id:uuid(),title:"card100",color:"black"}])
+      const handleAdd=(columnId)=>{
+        if(columns[columnId].items.length<8){
+          let newColumn={...columns}
+          var newAdd={id:uuid(),title:"title.length"+1}
+         console.log(newColumn[columnId].items.push(newAdd))
+         var output=newColumn[columnId].items.push(newAdd)
+         console.log(columns[columnId])
+         setColumns(columns)
+        }
+         else{
+          alert("maximum 8 card are added")
+         }
+          
+
       }
       const handleDelte=(id,columnId)=>{
        
-
+           let newColumn={...columns}
+           const output=newColumn[columnId].items.filter(out=>out.id !==id)
+           //setColumns(columns[columnId].splice(output))
+           setColumns(output)
       }
+      useEffect(() => {
+          setColumns(columns);
+        }, []);
       return (
         <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
           <DragDropContext
-            onDragEnd={result => onDragEnd(result, columns, setColumns)}
+        
+            onDragEnd={result => onDragEnd(result, columns, setColumns) }
           >
             {Object.entries(columns).map(([columnId, column], index) => {
               return (
@@ -164,10 +184,10 @@ const onDragEnd = (result, columns, setColumns) => {
                                         
                                         <div style={{padding:"5px",background:column.color}}>{item.title}
                                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16" style={{float:"right"}}
-                                       onClick={()=>handleDelte(item.id,columnId)}>
+                                       onClick={()=>handleDelte(columnId,index)}>
   <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
 </svg></div>
-                                        
+ 
                                       </div>
                                     );
                                   }}
@@ -175,7 +195,7 @@ const onDragEnd = (result, columns, setColumns) => {
                               );
                             })}
                             {provided.placeholder}
-                            <button className="btn btn-primary" onClick={handleAdd}>Add</button>
+                            <button className="btn btn-primary" onClick={()=>handleAdd(columnId)}>Add</button> 
                           </div>
                         );
                       }}
