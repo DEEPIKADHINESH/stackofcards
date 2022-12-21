@@ -97,9 +97,8 @@ const onDragEnd = (result, columns, setColumns) => {
         if(columns[columnId].items.length<8){
           let newColumn={...columns}
           var newAdd={id:uuid(),title:"card"+columns[columnId].items.length}
-         console.log(newColumn[columnId].items.push(newAdd))
-        // var output=newColumn[columnId].items.push(newAdd)
-         console.log(columns[columnId])
+          console.log(newColumn[columnId].items.push(newAdd))
+        console.log(columns[columnId])
          setColumns({...columns})
         }
          else{
@@ -108,103 +107,113 @@ const onDragEnd = (result, columns, setColumns) => {
           
 
       }
-      const handleDelte=(id,columnId)=>{
+      const handleDelte= async (columnId,id)=>{
        
            let newColumn={...columns}
-           //const output=newColumn[columnId].items.filter(out=>out.id !==id)
-          //console.log(columnId)
-          console.log(newColumn[columnId])
-           //([columnId].filter(out=>out.id !==id))
-         
+           
+           const output= (newColumn[columnId].items.splice(id,1))
+           console.log(output)
+           console.log(columns[columnId])
+    
+         setColumns({...columns})
 
       }
+     const handleChange=(columnId,id)=>{
+     }
       useEffect(() => {
           setColumns(columns);
         }, []);
       return (
         <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
-          <DragDropContext
+         
+           <DragDropContext
         
-            onDragEnd={result => onDragEnd(result, columns, setColumns) }
-          >
-            {Object.entries(columns).map(([columnId, column], index) => {
-              return (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    
-                    margin:20
-                  }}
-                  key={columnId}
-                >
-                  <h2>{column.name}</h2>
-                  <div style={{ margin: 8 }}>
-                    <Droppable droppableId={columnId} key={columnId}>
-                      {(provided, snapshot) => {
-                        return (
-                          <div
-                            {...provided.droppableProps}
-                            ref={provided.innerRef}
-                            style={{
-                              background: snapshot.isDraggingOver
-                                ? "lightblue"
-                                : "lightgrey",
-                              //background:column.color,
-                              padding: 4,
-                              width: 250,
-                              minHeight: 500,
-                              margin:20
-                              
-                            }}
-                          >
-                            {column.items.map((item, index) => {
-                              return (
-                                <Draggable
-                                  key={item.id}
-                                  draggableId={item.id}
-                                  index={index}
-                                >
-                                  {(provided, snapshot) => {
-                                    return (
-                                      <div
-                                        ref={provided.innerRef}
-                                        {...provided.draggableProps}
-                                        {...provided.dragHandleProps}
-                                        style={{
-                                          userSelect: "none",
-                                          padding: 16,
-                                          margin: "0 0 8px 0",
-                                          minHeight: "50px",
-                                          color: "white",
-                                          ...provided.draggableProps.style
-                                        }}
-                                      >
-                                        
-                                        <div style={{padding:"5px",background:column.color}}>{item.title}
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16" style={{float:"right"}}
-                                       onClick={()=>handleDelte(columnId,item.id)}>
-  <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
-</svg></div>
- 
-                                      </div>
-                                    );
-                                  }}
-                                </Draggable>
-                              );
-                            })}
-                            {provided.placeholder}
-                            <button className="btn btn-primary" onClick={()=>handleAdd(columnId)}>Add</button> 
-                          </div>
-                        );
-                      }}
-                    </Droppable>
-                  </div>
-                </div>
-              );
-            })}
-          </DragDropContext>
+           onDragEnd={result => onDragEnd(result, columns, setColumns) }
+         >
+           {Object.entries(columns).map(([columnId, column], index) => {
+           
+             return (
+               <div
+                 style={{
+                   display: "flex",
+                   flexDirection: "column",
+                   alignItems: "center",
+                   margin:20
+                 }}
+                 key={columnId}
+               >
+                 <h2>{column.name}</h2>
+                 <div style={{ margin: 8 }}>
+                   <Droppable droppableId={columnId} key={columnId}>
+                     {(provided, snapshot) => {
+                       return (
+                         <div
+                           {...provided.droppableProps}
+                           ref={provided.innerRef}
+                           style={{
+                             background: snapshot.isDraggingOver
+                               ? "lightblue"
+                               : "lightgrey",
+                             //background:column.color,
+                             padding: 4,
+                             width: 250,
+                             minHeight: 500,
+                             margin:20
+                             
+                           }}
+                         >
+                           {column.items.map((item, index) => {
+                             return (
+                               <Draggable
+                                 key={item.id}
+                                 draggableId={item.id}
+                                 index={index}
+                               >
+                                 {(provided, snapshot) => {
+                                   return (
+                                     <div
+                                       ref={provided.innerRef}
+                                       {...provided.draggableProps}
+                                       {...provided.dragHandleProps}
+                                       style={{
+                                         userSelect: "none",
+                                         padding: 16,
+                                         margin: "0 0 8px 0",
+                                         minHeight: "50px",
+                                         color: "white",
+                                         ...provided.draggableProps.style
+                                       }}
+                                     >
+                                       
+                                       <div style={{padding:"5px",background:column.color}}>{item.title}
+                                      
+                                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16" style={{float:"right"}}
+                                      onClick={()=>handleDelte(columnId,item.id)}>
+ <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z"/>
+</svg>
+
+</div>
+
+                                     </div>
+                                   );
+                                 }}
+                               </Draggable>
+                             );
+                           })}
+                           {provided.placeholder}
+                           {/* <button onClick={()=>handleDelte(columnId)}>Delete</button> */}
+                           <button className="btn btn-primary" onClick={()=>handleAdd(columnId)}>Add</button> 
+                           
+                         </div>
+                       );
+                     }}
+                   </Droppable>
+                 </div>
+               </div>
+             );
+           })}
+         </DragDropContext>
+         
         </div>
       );
     }
