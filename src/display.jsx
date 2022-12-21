@@ -32,22 +32,22 @@ const itemsFromBackend3 = [
 ]
 const columnsFromBackend = {
   [uuid()]: {
-    name: "Title1",
+    name: "Red Stack",
     items: itemsFromBackend,
     color: "red"
   },
   [uuid()]: {
-    name: "Title2",
+    name: "Blue Stack",
     items: itemsFromBackend1,
     color: "blue"
   },
   [uuid()]: {
-    name: "Title3",
+    name: "Green Stack",
     items: itemsFromBackend2,
     color: "green"
   },
   [uuid()]: {
-    name: "Title4",
+    name: "Black Stack",
     items: itemsFromBackend3,
     color: "black"
   }
@@ -110,14 +110,14 @@ function Display() {
   const handleDelte = async (columnId, id) => {
 
     let newColumn = { ...columns }
-
-    const output = (newColumn[columnId].items.splice(id, 1))
+const output = (newColumn[columnId].items.splice(id, 1))
     //  console.log(output)
     //  console.log(columns[columnId])
 
     setColumns({ ...columns })
 
   }
+
   const handleChange = (columnId, id,e) => {
     let newColumn={...columns}
    let output=newColumn[columnId].items.map
@@ -127,13 +127,15 @@ function Display() {
    return item}
    
    )
-   console.log(output)
+  // console.log(output)
    setColumns({...columns})
 
   }
+
   useEffect(() => {
     setColumns(columns);
   }, []);
+
   return (
     <div style={{ display: "flex", justifyContent: "center", height: "100%" }}>
 
@@ -184,6 +186,7 @@ function Display() {
                               
                               {(provided, snapshot) => {
                                 return (
+                                  
                                   <div
                                     ref={provided.innerRef}
                                     {...provided.draggableProps}
@@ -199,27 +202,29 @@ function Display() {
                                   >
                                     
                                      <div style={{display:"flex",flexDirection:"row"}}>
-                                      <div defaultValue={item.title}>
-                                     <input style={{ padding: "5px", background: column.color,color:"white" }}typeof="text" value={item.title} onChange={(e)=>handleChange(columnId,item.id,e.target.value)} ></input>
-                                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16" style={{ float: "right",background:column.color}}
+                                      
+                                     <input style={{ padding: "5px", background: column.color,color:"white",height:"50px",textAlign:"center",
+                                     
+                                     }}typeof="text" value={item.title} onChange={(e)=>handleChange(columnId,item.id,e.target.value)} ></input>
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="40" height="50" fill="currentColor" className="bi bi-x" viewBox="0 0 16 16" style={{ float: "right",background:column.color}}
                                         onClick={() => handleDelte(columnId, item.id)}>
                                         <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708z" />
                                       </svg>
                                       </div>
                                       </div>
-                                      </div>
+                                     
 
-                                  
+                                      
                                 );
                               }}
+                              
                             </Draggable>
                           );
                         })}
                         {provided.placeholder}
-                        {/* <button onClick={()=>handleDelte(columnId)}>Delete</button> */}
-                        <button className="btn btn-primary" onClick={() => handleAdd(columnId)}>Add</button>
-
-                      </div>
+                   
+                        <button className="btn btn-primary" style={{marginLeft:"80px"}} onClick={() => handleAdd(columnId)}>Add</button>
+                        </div>
                     );
                   }}
                 </Droppable>
